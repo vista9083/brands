@@ -1,12 +1,21 @@
 (function () {
-  const repo = "https://cdn.jsdelivr.net/gh/YOUR_USERNAME/brand-icons-cdn@main/images/";
+  const base = "https://cdn.jsdelivr.net/gh/vista9083/brands@main/images/";
 
   document.querySelectorAll("img[class^='br-']").forEach((img) => {
-    const brand = img.className.split(" ").find(cls => cls.startsWith("br-"))?.slice(3);
-    
-    if (brand) {
-      const url = `${repo}${brand.toLowerCase()}.png`;
-      img.src = url;
-    }
+    const className = img.className.split(" ").find(cls => cls.startsWith("br-"));
+    if (!className) return;
+
+    const brand = className.slice(3).toLowerCase();
+    const pngUrl = `${base}${brand}.png`;
+    const jpgUrl = `${base}${brand}.jpg`;
+
+    const tryLoad = (url, fallback) => {
+      const testImg = new Image();
+      testImg.onload = () => (img.src = url);
+      testImg.onerror = () => fallback && fallback();
+      testImg.src = url;
+    };
+
+    tryLoad(pngUrl, () => tryLoad(jpgUrl));
   });
 })();
