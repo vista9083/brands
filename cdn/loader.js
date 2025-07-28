@@ -1,15 +1,14 @@
-console.log("still working");
+console.log("still working: 2");
 
 (function () {
   const base = "https://vista9083.github.io/brands/images/";
 
-  document.querySelectorAll("img[class^='br-']").forEach((img) => {
-    const className = img.className.split(" ").find(cls => cls.startsWith("br-"));
-    if (!className) return;
+  document.querySelectorAll("img[id]").forEach((img) => {
+    const id = img.id.trim().toLowerCase();
+    if (!id) return;
 
-    const brand = className.slice(3).toLowerCase();
-    const pngUrl = `${base}${brand}.png`;
-    const jpgUrl = `${base}${brand}.jpg`;
+    const pngUrl = `${base}${id}.png`;
+    const jpgUrl = `${base}${id}.jpg`;
 
     const tryLoad = (url, fallbackUrl) => {
       const testImg = new Image();
