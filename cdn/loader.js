@@ -1,7 +1,7 @@
 console.log("working");
 
 (function () {
-  const base = "https://cdn.jsdelivr.net/gh/vista9083/brands@main/images/";
+  const base = "https://vista9083.github.io/brands/images/";
 
   document.querySelectorAll("img[class^='br-']").forEach((img) => {
     const className = img.className.split(" ").find(cls => cls.startsWith("br-"));
