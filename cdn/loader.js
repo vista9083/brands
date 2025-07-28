@@ -9,21 +9,29 @@
     const pngUrl = `${base}${brand}.png`;
     const jpgUrl = `${base}${brand}.jpg`;
 
-    console.log(`Trying to load ${brand}:`, pngUrl, "→ fallback", jpgUrl);
-
-    const tryLoad = (url, fallback) => {
+    const tryLoad = (url, fallbackUrl) => {
       const testImg = new Image();
       testImg.onload = () => {
         console.log(`Loaded ${url}`);
         img.src = url;
       };
       testImg.onerror = () => {
-        console.warn(`Failed to load ${url}`);
-        if (fallback) fallback();
+        console.warn(`Failed: ${url}`);
+        if (fallbackUrl) {
+          const fallbackImg = new Image();
+          fallbackImg.onload = () => {
+            console.log(`Fallback loaded: ${fallbackUrl}`);
+            img.src = fallbackUrl;
+          };
+          fallbackImg.onerror = () => {
+            console.error(`Both ${url} and fallback failed`);
+          };
+          fallbackImg.src = fallbackUrl;
+        }
       };
       testImg.src = url;
     };
 
-    tryLoad(pngUrl, () => tryLoad(jpgUrl));
+    tryLoad(pngUrl, jpgUrl);
   });
 })();
