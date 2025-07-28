@@ -1,4 +1,4 @@
-console.log("working");
+console.log("still working");
 
 (function () {
   const base = "https://vista9083.github.io/brands/images/";
@@ -14,11 +14,10 @@ console.log("working");
     const tryLoad = (url, fallbackUrl) => {
       const testImg = new Image();
       testImg.onload = () => {
-        console.log(`Loaded ${url}`);
+        console.log(`Loaded: ${url}`);
         img.src = url;
       };
       testImg.onerror = () => {
-        console.warn(`Failed: ${url}`);
         if (fallbackUrl) {
           const fallbackImg = new Image();
           fallbackImg.onload = () => {
@@ -26,7 +25,7 @@ console.log("working");
             img.src = fallbackUrl;
           };
           fallbackImg.onerror = () => {
-            console.error(`Both ${url} and fallback failed`);
+            console.warn(`Failed to load both ${url} and fallback`);
           };
           fallbackImg.src = fallbackUrl;
         }
