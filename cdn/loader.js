@@ -9,10 +9,18 @@
     const pngUrl = `${base}${brand}.png`;
     const jpgUrl = `${base}${brand}.jpg`;
 
+    console.log(`Trying to load ${brand}:`, pngUrl, "→ fallback", jpgUrl);
+
     const tryLoad = (url, fallback) => {
       const testImg = new Image();
-      testImg.onload = () => (img.src = url);
-      testImg.onerror = () => fallback && fallback();
+      testImg.onload = () => {
+        console.log(`Loaded ${url}`);
+        img.src = url;
+      };
+      testImg.onerror = () => {
+        console.warn(`Failed to load ${url}`);
+        if (fallback) fallback();
+      };
       testImg.src = url;
     };
 
