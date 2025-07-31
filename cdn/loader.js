@@ -2,34 +2,34 @@
   const base = "https://vista9083.github.io/brands/images/";
 
   document.querySelectorAll("img[id]").forEach((img) => {
-    const originalId = img.id.trim();
-    const id = originalId.toLowerCase();
+    const idRaw = img.id.trim();
+    const id = idRaw.toLowerCase(); // Convert to lowercase
 
-    const urls = [
-      `${base}${id}.png`,
-      `${base}${id}.jpg`,
-      `${base}${originalId}.png`,
-      `${base}${originalId}.jpg`
-    ];
+    const pngUrl = `${base}${id}.png`;
+    const jpgUrl = `${base}${id}.jpg`;
 
-    const tryUrls = (index = 0) => {
-      if (index >= urls.length) {
-        console.warn(`No image found for id="${originalId}"`);
-        return;
-      }
-
-      const url = urls[index];
+    const tryLoad = (url, fallbackUrl) => {
       const testImg = new Image();
       testImg.onload = () => {
         img.src = url;
         console.log(`Loaded: ${url}`);
       };
       testImg.onerror = () => {
-        tryUrls(index + 1);
+        if (fallbackUrl) {
+          const fallbackImg = new Image();
+          fallbackImg.onload = () => {
+            img.src = fallbackUrl;
+            console.log(`Fallback loaded: ${fallbackUrl}`);
+          };
+          fallbackImg.onerror = () => {
+            console.warn(`Failed to load both: ${url} and fallback`);
+          };
+          fallbackImg.src = fallbackUrl;
+        }
       };
       testImg.src = url;
     };
 
-    tryUrls();
+    tryLoad(pngUrl, jpgUrl);
   });
 })();
